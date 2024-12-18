@@ -29,13 +29,16 @@ Comando aws-cli para criação de user-iam e em seguida, criar um acesso via CLI
 
 ### S3 para o tfstate
 o primeiro provisionamento via terraform foi o s3 para armazenar os tfstates. 
+
 caminho onde está armazenado:
+
 project-codegroup/Infra/Terraform-Project/devops/S3
 $ terraform output              
 bucket_name_app_getrak_tfstate = "codegroup-devops-tfstate-s3-project"
 
 project-codegroup/Infra/Terraform-Project/app/S3
-
+$ terraform output              
+bucket_name_app_getrak_tfstate = "codegroup-apps-tfstate-s3-project"
 
 ----------------------------------------------------------------------------------------
 
