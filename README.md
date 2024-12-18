@@ -41,6 +41,7 @@ project-codegroup/Infra/Terraform-Project/app/S3
 $ terraform output              
 bucket_name_app_codegroup_tfstate = "codegroup-apps-tfstate-s3-project"
 
+--------------------------------------------------------------------------------
 
 ### VPC para o project-devops 
 
@@ -77,13 +78,25 @@ id_subnet_public_2_project_codegroup_apps = "subnet-0758abbb14bdb5726"
 vpc_cidr_project_codegroup_apps = "10.1.0.0/16"
 vpc_id_project_codegroup_apps = "vpc-08cb7944e26aa0c37"
 
+--------------------------------------------------------------------------------
 
-### SG para o server do Jenkins
+--------------------------------------------------------------------------------
+### SG para o server do Jenkins-devops:
 Caminho onde está project devops-sg-jenkins:
 project-codegroup/Infra/Terraform-Project/devops/SG/sg-jenkins
 terraform output:
 sg_jenkins_security_project_codegroup = "sg-06de367b45e15d2b7"
 sg_name_jenkins_project_codegroup = "codegroup_devops"
+
+## SG para o server apps:
+Caminho onde está sg project apps:
+project-codegroup/Infra/Terraform-Project/app/SG/sg-app
+
+terraform output              
+sg_apps_security_project_codegroup = "sg-0f48635d5cb885ef8"
+sg_name_apps_project_codegroup = "codegroup_apps_sg"
+
+---------------------------------------------------------------------------------
 
 
 ### EC2 Jenkins 
@@ -99,6 +112,9 @@ security_group_id = "sg-06de367b45e15d2b7"
 
 ## Comandos Ansible:
 ansible-playbook -i inventory.ini Playbooks-Devops/playbook.yml  -> instala o docker-ce, docker-compose, nginx
+
+
+
 
 ----------------------------------------------------------------------------------------
 

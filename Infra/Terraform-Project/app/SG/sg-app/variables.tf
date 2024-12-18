@@ -1,0 +1,14 @@
+variable "project_codegroup_apps" {
+  description = "Projeto que sera usada para o tfstate da devops"
+  default     = "codegroup_apps_sg"
+}
+
+
+variable "sg_name" {
+  default = "sg_apps"
+}
+
+variable "access_maquina_local" {
+  description = "Variavel para acesso a maquina do jenkins via maquina local"
+  # execute o comando antes export TF_VAR_access_maquina_local="$(curl -4 ifconfig.me)/32"
+}
