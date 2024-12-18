@@ -58,7 +58,7 @@ id_subnet_public_1_project_codegroup_devops = "subnet-03b038a9c7d627ba8"
 id_subnet_public_2_project_codegroup_devops = "subnet-0c6a7e07817542701"
 vpc_cidr_project_codegroup_devops = "10.0.0.0/16"
 vpc_id_project_codegroup_devops = "vpc-0b6e535a4b11a0065"
-
+vpc_peering_id = "pcx-0c7c121d981457388"
 
 Caminho onde está project apps-network:
 project-codegroup/Infra/Terraform-Project/app/NETWORK
@@ -76,6 +76,16 @@ id_subnet_public_2_project_codegroup_apps = "subnet-0758abbb14bdb5726"
 vpc_cidr_project_codegroup_apps = "10.1.0.0/16"
 vpc_id_project_codegroup_apps = "vpc-08cb7944e26aa0c37"
 
+
+### EC2 Jenkins 
+Caminho onde está project apps-network:
+project-codegroup/Infra/Terraform-Project/devops/EC2/jenkins
+
+terraform output:
+instance_type = "t2.micro"
+ip_sever = "44.198.76.159"
+key_name_ssh = "project-aws"
+security_group_id = "sg-06de367b45e15d2b7"
 ----------------------------------------------------------------------------------------
 
 ## Arquitetura do projeto (configuração da infraestrutura)
