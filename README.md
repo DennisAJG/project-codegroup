@@ -60,6 +60,21 @@ vpc_cidr_project_codegroup_devops = "10.0.0.0/16"
 vpc_id_project_codegroup_devops = "vpc-0b6e535a4b11a0065"
 
 
+Caminho onde está project apps-network:
+project-codegroup/Infra/Terraform-Project/app/NETWORK
+terraform output              
+cidr_blocks_private_subnet_1_project_codegroup_apps = "10.1.2.0/24"
+cidr_blocks_private_subnet_2_project_codegroup_apps = "10.1.4.0/24"
+cidr_blocks_public_subnet_1_project_codegroup_apps = "10.1.1.0/24"
+cidr_blocks_public_subnet_2_project_codegroup_apps = "10.1.3.0/24"
+id_igw_project_codegroup_apps = "igw-0877268d796133999"
+id_route_table_public_project_codegroup_apps = "rtb-0b2e90ef42ad795a7"
+id_subnet_private_1_project_codegroup_apps = "subnet-09b077175c45524f9"
+id_subnet_private_2_project_codegroup_apps = "subnet-071016d99047ae907"
+id_subnet_public_1_project_codegroup_apps = "subnet-027ea83a0c1ea6805"
+id_subnet_public_2_project_codegroup_apps = "subnet-0758abbb14bdb5726"
+vpc_cidr_project_codegroup_apps = "10.1.0.0/16"
+vpc_id_project_codegroup_apps = "vpc-08cb7944e26aa0c37"
 
 ----------------------------------------------------------------------------------------
 
