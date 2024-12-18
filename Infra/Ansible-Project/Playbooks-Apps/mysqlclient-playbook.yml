@@ -1,0 +1,17 @@
+---
+- name: Instalação do MySQL Client
+  hosts: apps
+  become: yes
+  vars:
+    mysql_client_package: "{{ 'mysql-client' if ansible_os_family == 'Debian' else 'mysql' }}"
+  
+  tasks:
+    - name: Atualizar o cache dos pacotes
+      ansible.builtin.apt:
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: Instalar o MySQL Client
+      package:
+        name: "{{ mysql_client_package }}"
+        state: present

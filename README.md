@@ -26,6 +26,7 @@ Comando aws-cli para criação de user-iam e em seguida, criar um acesso via CLI
  $ vault kv put kv/ssh-keys ansible_key="ssh-rsa ..."
  $ vault kv put kv/ssh-keys jenkins_key="ssh-rsa ..." 
  $ export TF_VAR_access_maquina_local="$(curl -4 ifconfig.me)/32"
+ $ vault kv put kv/credentials-database db_username="root" db_password="CodeGroup2024"
 
 ## Processos do levantamento da infraestrutura:
 
@@ -125,11 +126,29 @@ security_group_id = "sg-0f48635d5cb885ef8"
 
 -----------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------
+## RDS Apps:
 
+Comando vault para armazenar a senha do root:
+vault kv put kv/credentials-database db_username="root" db_password="CodeGroup2024"
+
+terraform apply -target=aws_security_group.sg_apps_database_security_project_codegroup --auto-approve
+
+terraform output:
+db_instance_arn = "arn:aws:rds:us-east-1:891612581071:db:databaseprojectappscodegroup"
+db_instance_endpoint = "databaseprojectappscodegroup.cly6g06qycbq.us-east-1.rds.amazonaws.com:3306"
+
+-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
 
 ## Comandos Ansible:
+Server-Jenkins:
 ansible-playbook -i inventory.ini Playbooks-Devops/playbook.yml  -> instala o docker-ce, docker-compose, nginx
 
+
+Server-Apps:
+ansible-playbook -i inventory.ini Playbooks-Apps/etchost-playbook.yml
+ansible-playbook -i inventory.ini Playbooks-Apps/nginx-playbook.yml
+ansible-playbook -i inventory.ini Playbooks-Apps/playbook.yml
 
 
 

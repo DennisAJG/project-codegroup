@@ -14,8 +14,8 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "codegroup-devops-tfstate-s3-project"
-    key    = "codegroup-devops/ec2/apps/terraform.tfstate"
+    bucket = "codegroup-apps-tfstate-s3-project"
+    key    = "codegroup-apps/rds/apps/terraform.tfstate"
     region = "us-east-1"
   }
 }
@@ -38,5 +38,4 @@ provider "vault" {
   skip_tls_verify  = true
   namespace        = ""
   skip_child_token = true
-
 }

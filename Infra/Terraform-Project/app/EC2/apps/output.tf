@@ -2,6 +2,10 @@ output "ip_sever" {
   description = "ip publico elastic do servidor"
   value       = aws_eip.elastic_ip_project_codegroup.public_ip
 }
+output "ip_private_server" {
+  description = "ip privado elastic do servidor"
+  value       = aws_instance.sever_project_apps_codegroup.private_ip
+}
 
 output "instance_type" {
   description = "tipo de instance atribuida no servidor"
