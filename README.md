@@ -17,13 +17,14 @@ Comando aws-cli para criação de user-iam e em seguida, criar um acesso via CLI
 
  Comandos usados:
  $ vault login -tls-skip-verify token-root
- $ export VAULT_ADDR="https://127.0.0.1:8200
+ $ export VAULT_ADDR="https://127.0.0.1:8200"
  $ export VAULT_SKIP_VERIFY=true  (USADO para não validar certificado TLS (usado para ambiente de desenvolvimento e testes))
  $ source ~/.zshrc
  $ vault secrets enable -version=2 kv
  $ vault kv put kv/aws-credentials access_key=access_id secret_key=secrect_id
  $ vault kv get kv/aws-credentials
-
+ $ vault kv put kv/ssh-keys ansible_key="ssh-rsa ..."
+ $ export TF_VAR_access_maquina_local="$(curl -4 ifconfig.me)/32"
 
 ## Processos do levantamento da infraestrutura:
 
@@ -95,6 +96,9 @@ ip_sever = "44.198.76.159"
 key_name_ssh = "project-aws"
 security_group_id = "sg-06de367b45e15d2b7"
 
+
+## Comandos Ansible:
+ansible-playbook -i inventory.ini Playbooks-Devops/playbook.yml  -> instala o docker-ce, docker-compose, nginx
 
 ----------------------------------------------------------------------------------------
 
