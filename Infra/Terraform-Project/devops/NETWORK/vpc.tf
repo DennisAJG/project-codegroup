@@ -4,5 +4,12 @@ resource "aws_vpc" "vpc_project_codegroup_devops" {
   enable_dns_hostnames = "true"
   instance_tenancy     = "default"
 
-  tags = local.common_tags
+
+  tags = merge (
+    local.common_tags,
+    {
+      Name = "${var.project_codegroup_devops}-vpc"
+    }
+  )
+
 }
