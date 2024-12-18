@@ -5,7 +5,7 @@ resource "aws_vpc" "vpc_project_codegroup_devops" {
   instance_tenancy     = "default"
 
 
-  tags = merge (
+  tags = merge(
     local.common_tags,
     {
       Name = "${var.project_codegroup_devops}-vpc"

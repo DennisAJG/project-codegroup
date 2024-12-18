@@ -57,3 +57,8 @@ output "id_route_table_public_project_codegroup_devops" {
   description = "id da route table publica que.awtextra usado no projeto codegroup devops"
   value       = aws_route_table.rt_project_codegroup_devops.id
 }
+
+output "vpc_peering_id" {
+  description = "ID do VPC Peering Connection"
+  value       = aws_vpc_peering_connection.vpc_peering_connection_project_codegroup_apps_project_codegroup_devops.id
+}

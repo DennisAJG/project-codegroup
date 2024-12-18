@@ -37,3 +37,8 @@ variable "project_codegroup_apps" {
   description = "Projeto que sera usada para o tfstate da apps"
   default     = "codegroup_apps"
 }
+
+variable "id_route_table_public_project_codegroup_devops" {
+  description = "id da route table publica do projeto codegroup devops"
+  default     = "rtb-09b60374a7efab491"
+}
