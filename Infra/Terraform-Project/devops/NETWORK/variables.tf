@@ -33,3 +33,7 @@ variable "project_codegroup_devops" {
   default     = "codegroup_devops"
 }
 
+variable "project_codegroup_apps" {
+  description = "Projeto que sera usada para o tfstate da apps"
+  default     = "codegroup_apps"
+}
