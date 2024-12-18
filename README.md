@@ -34,11 +34,11 @@ caminho onde está armazenado:
 
 project-codegroup/Infra/Terraform-Project/devops/S3
 $ terraform output              
-bucket_name_app_getrak_tfstate = "codegroup-devops-tfstate-s3-project"
+bucket_name_app_codegroup_tfstate = "codegroup-devops-tfstate-s3-project"
 
 project-codegroup/Infra/Terraform-Project/app/S3
 $ terraform output              
-bucket_name_app_getrak_tfstate = "codegroup-apps-tfstate-s3-project"
+bucket_name_app_codegroup_tfstate = "codegroup-apps-tfstate-s3-project"
 
 
 ### VPC para o project-devops 
@@ -77,8 +77,16 @@ vpc_cidr_project_codegroup_apps = "10.1.0.0/16"
 vpc_id_project_codegroup_apps = "vpc-08cb7944e26aa0c37"
 
 
+### SG para o server do Jenkins
+Caminho onde está project devops-sg-jenkins:
+project-codegroup/Infra/Terraform-Project/devops/SG/sg-jenkins
+terraform output:
+sg_jenkins_security_project_codegroup = "sg-06de367b45e15d2b7"
+sg_name_jenkins_project_codegroup = "codegroup_devops"
+
+
 ### EC2 Jenkins 
-Caminho onde está project apps-network:
+Caminho onde está project devops-ec2-jenkins:
 project-codegroup/Infra/Terraform-Project/devops/EC2/jenkins
 
 terraform output:
@@ -86,6 +94,8 @@ instance_type = "t2.micro"
 ip_sever = "44.198.76.159"
 key_name_ssh = "project-aws"
 security_group_id = "sg-06de367b45e15d2b7"
+
+
 ----------------------------------------------------------------------------------------
 
 ## Arquitetura do projeto (configuração da infraestrutura)
