@@ -24,10 +24,12 @@ Comando aws-cli para criação de user-iam e em seguida, criar um acesso via CLI
  $ vault kv put kv/aws-credentials access_key=access_id secret_key=secrect_id
  $ vault kv get kv/aws-credentials
  $ vault kv put kv/ssh-keys ansible_key="ssh-rsa ..."
+ $ vault kv put kv/ssh-keys jenkins_key="ssh-rsa ..." 
  $ export TF_VAR_access_maquina_local="$(curl -4 ifconfig.me)/32"
 
 ## Processos do levantamento da infraestrutura:
 
+--------------------------------------------------------------------------------
 ### S3 para o tfstate
 o primeiro provisionamento via terraform foi o s3 para armazenar os tfstates. 
 
@@ -40,6 +42,8 @@ bucket_name_app_codegroup_tfstate = "codegroup-devops-tfstate-s3-project"
 project-codegroup/Infra/Terraform-Project/app/S3
 $ terraform output              
 bucket_name_app_codegroup_tfstate = "codegroup-apps-tfstate-s3-project"
+
+--------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 
@@ -98,7 +102,7 @@ sg_name_apps_project_codegroup = "codegroup_apps_sg"
 
 ---------------------------------------------------------------------------------
 
-
+---------------------------------------------------------------------------------
 ### EC2 Jenkins 
 Caminho onde está project devops-ec2-jenkins:
 project-codegroup/Infra/Terraform-Project/devops/EC2/jenkins
@@ -108,6 +112,19 @@ instance_type = "t2.micro"
 ip_sever = "44.198.76.159"
 key_name_ssh = "project-aws"
 security_group_id = "sg-06de367b45e15d2b7"
+
+### EC2 apps
+Caminha onde está o projeto apps-ec2:
+project-codegroup/Infra/Terraform-Project/app/EC2/apps
+
+terraform output:
+instance_type = "t2.micro"
+ip_sever = "54.90.113.115"
+key_name_ssh = "project-aws"
+security_group_id = "sg-0f48635d5cb885ef8"
+
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
 
 
 ## Comandos Ansible:

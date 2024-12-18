@@ -32,7 +32,7 @@ resource "aws_security_group" "sg_apps_security_project_codegroup" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["44.198.76.159/32"]
+    cidr_blocks = ["${data.terraform_remote_state.sg_jenkins_devops_ip_sever.outputs.ip_sever}/32"]
   }
 
   #ingress {
