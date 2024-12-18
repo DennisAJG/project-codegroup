@@ -1,12 +1,12 @@
 ---
-- name: Update etc/hosts
+- name: Update etc/hostname
   hosts: apps
   become: true
 
   tasks:
-    - name: Update /etc/hosts with new hostname
+    - name: Update /etc/hostname with new hostname
       lineinfile:
-        path: /etc/hosts
-        regexp: '^127\.0\.1\.1'
-        line: "127.0.1.1 devops-apps"
+        path: /etc/hostname
+        regexp: 'ip-10-1-1-9'
+        line: "server-apps"
       when: "'apps' in group_names"
