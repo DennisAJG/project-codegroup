@@ -6,6 +6,11 @@ terraform {
       source  = "hashicorp/aws"
       version = ">=5.38.0"
     }
+
+    vault = {
+      source  = "hashicorp/vault"
+      version = "3.18.0"
+    }
   }
 
   backend "s3" {
@@ -25,4 +30,13 @@ provider "aws" {
       managed-by = "terraform-aws"
     }
   }
+}
+
+provider "vault" {
+  address        = "https://127.0.0.1:8200"
+  token          = var.vault_token_project_codegroup
+  skip_tls_verify = true
+  namespace       = ""
+  skip_child_token  = true
+
 }

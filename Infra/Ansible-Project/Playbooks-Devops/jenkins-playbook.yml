@@ -1,0 +1,80 @@
+---
+- name: Install and Configure Jenkins
+  hosts: jenkins
+  become: yes
+
+  tasks:
+    # 1. Instala Java 17 e Jenkins
+    - name: Update apt package list and install Java 17
+      apt:
+        name: openjdk-17-jdk
+        state: present
+        update_cache: yes
+
+    - name: Add Jenkins GPG key
+      apt_key:
+        url: https://pkg.jenkins.io/debian/jenkins.io-2023.key
+        state: present
+
+    - name: Add Jenkins APT repository
+      apt_repository:
+        repo: "deb https://pkg.jenkins.io/debian-stable binary/"
+        state: present
+        filename: jenkins
+
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+        update_cache: yes
+
+    - name: Ensure Jenkins directories have correct permissions
+      file:
+        path: "{{ item }}"
+        owner: jenkins
+        group: jenkins
+        recurse: yes
+      with_items:
+        - /var/lib/jenkins
+        - /var/log/jenkins
+        - /var/cache/jenkins
+        
+    - name: Change hostname to 'devops-jenkins' if host belongs to 'jenkins' group
+      hostname:
+        name: devops-jenkins
+      when: "'jenkins' in group_names"
+
+    - name: Update /etc/hosts with new hostname
+      lineinfile:
+        path: /etc/hosts
+        regexp: '^127\.0\.1\.1'
+        line: "127.0.1.1 devops-jenkins"
+      when: "'jenkins' in group_names"
+
+    - name: Reboot the server to apply hostname changes
+      reboot:
+        msg: "Rebooting to apply hostname changes"
+        pre_reboot_delay: 5
+        post_reboot_delay: 15
+        test_command: "hostnamectl"
+      when: "'jenkins' in group_names"
+
+    - name: Start and enable Jenkins service
+      service:
+        name: jenkins
+        state: started
+        enabled: yes
+
+    - name: Get Jenkins initial admin password
+      command: cat /var/lib/jenkins/secrets/initialAdminPassword
+      register: jenkins_password
+
+    - name: Fetch public IP of the instance
+      set_fact:
+        public_ip: "{{ ansible_host }}"
+
+    - name: Display Jenkins Access Information
+      debug:
+        msg:
+          - "Access Jenkins at: http://{{ public_ip }}:8080"
+          - "Initial Admin Password: {{ jenkins_password.stdout }}"

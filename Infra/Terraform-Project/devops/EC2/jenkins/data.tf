@@ -15,3 +15,8 @@ data "terraform_remote_state" "sg_project_codegroup_devops_remote" {
     region = "us-east-1"
   }
 }
+
+data "vault_kv_secret_v2" "ansible_ssh_key_public" {
+  mount = "kv"          
+  name  = "ssh-keys"   
+}

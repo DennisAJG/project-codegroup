@@ -12,3 +12,8 @@ variable "project_codegroup_devops" {
   description = "Projeto que sera usada para o tfstate da devops"
   default     = "codegroup_devops"
 }
+
+variable "vault_token_project_codegroup" {
+  description = "token de acesso a Vault para incluir a chave publica do ansible "
+  type        = string
+}
