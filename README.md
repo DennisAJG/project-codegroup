@@ -40,6 +40,27 @@ project-codegroup/Infra/Terraform-Project/app/S3
 $ terraform output              
 bucket_name_app_getrak_tfstate = "codegroup-apps-tfstate-s3-project"
 
+
+### VPC para o project-devops 
+
+Caminho onde está project devops-network:
+project-codegroup/Infra/Terraform-Project/devops/NETWORK
+terraform output              
+cidr_blocks_private_subnet_1_project_codegroup_devops = "10.0.2.0/24"
+cidr_blocks_private_subnet_2_project_codegroup_devops = "10.0.4.0/24"
+cidr_blocks_public_subnet_1_project_codegroup_devops = "10.0.1.0/24"
+cidr_blocks_public_subnet_2_project_codegroup_devops = "10.0.3.0/24"
+id_igw_project_codegroup_devops = "igw-0513f36fed9958cc4"
+id_route_table_public_project_codegroup_devops = "rtb-09b60374a7efab491"
+id_subnet_private_1_project_codegroup_devops = "subnet-097aa7bde465a9cb7"
+id_subnet_private_2_project_codegroup_devops = "subnet-036562ba153dde991"
+id_subnet_public_1_project_codegroup_devops = "subnet-03b038a9c7d627ba8"
+id_subnet_public_2_project_codegroup_devops = "subnet-0c6a7e07817542701"
+vpc_cidr_project_codegroup_devops = "10.0.0.0/16"
+vpc_id_project_codegroup_devops = "vpc-0b6e535a4b11a0065"
+
+
+
 ----------------------------------------------------------------------------------------
 
 ## Arquitetura do projeto (configuração da infraestrutura)
