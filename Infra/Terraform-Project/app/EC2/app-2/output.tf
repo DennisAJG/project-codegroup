@@ -1,0 +1,25 @@
+output "ip_sever" {
+  description = "ip publico elastic do servidor"
+  value       = aws_eip.elastic_ip_project_app_flask_codegroup.public_ip
+}
+
+output "ip_private_server" {
+  description = "ip privado elastic do servidor"
+  value       = aws_instance.sever_project_apps__flask_codegroup.private_ip
+}
+
+output "instance_type" {
+  description = "tipo de instance atribuida no servidor"
+  value       = aws_instance.sever_project_apps__flask_codegroup.instance_type
+}
+
+output "key_name_ssh" {
+  description = "chave ssh que será usado para o acesso a máquina"
+  value       = aws_instance.sever_project_apps__flask_codegroup.key_name
+}
+
+
+output "security_group_id" {
+  description = "id da security group"
+  value       = data.terraform_remote_state.sg_project_codegroup_apps_remote.outputs.sg_apps_security_project_codegroup
+}
