@@ -16,6 +16,16 @@ data "terraform_remote_state" "sg_project_codegroup_apps_remote" {
   }
 }
 
+data "terraform_remote_state" "iam_project_codegroup_apps_remote" {
+  backend = "s3"
+  config = {
+    profile = "user-codegroup"
+    bucket  = "codegroup-devops-tfstate-s3-project"
+    key     = "codegroup-devops/iam/terraform.tfstate"
+    region  = "us-east-1"
+  }
+}
+
 data "vault_kv_secret_v2" "ansible_ssh_key_public" {
   mount = "kv"
   name  = "ssh-keys"
