@@ -6,6 +6,45 @@ Este projeto consiste no desenvolvimento de uma infraestrutura AWS simulando um 
 
 Tecnologias usadas para o desenvolvimento do projeto.
 
+## Analise de Pastas.
+o projeto infra foi divido nas seguintes pastas:
+Infra
+  1 - Ansible-Project (pastas das playbooks para servers de devops e apps)
+      1.0 - inventory.ini (contem os hosts)
+      1.1 - Playbooks-Apps (contem as playbooks para server apps)
+      1.2 - Playbooks-DevOps (contem as playbooks para server devops)
+
+
+  2 - Terraform-Project (pastas onde contem toda a estrutura terraform do devops e apps)
+      2.0 - app (pastas onde contem toda a estrutura terraform do apps)
+            2.0.1 - EC2 (contem o terraform-ec2 do apps)
+            2.0.2 - ECR (contem o terraform-ecr do apps)
+            2.0.3 - MODULOS (contem o terraform-modulos do apps)
+            2.0.4 - NETWORK (contem o terraform-networks do apps)
+            2.0.5 - RDS (contem o terraform-rds do apps)
+            2.0.6 - S3 (contem duas pastas com terraform-s3 uma para apps-tfstate e a outra para s3-dados)
+            2.0.7 - SG (contem o terraform-sg do apps)
+
+      2.1 - devops (pastas onde contem toda a estrutura terraform do devops)
+            2.1.1 - BILLING (contem o terraform-billing do devops)
+            2.1.2 - EC2 (contem o terraform-ec2 do jenkins)
+            2.1.3 - ECR (vazio)
+            2.1.4 - IAM (contem o terraform-iam do user-jenkins entre policys)
+            2.1.5 - NETWORK (contem o terraform-network do devops)
+            2.1.6 - RDS (vazio)
+            2.1.7 - S3 (contem o terraform-s3 do devops-tfstate)
+            2.1.8 - SG (contem o terraform-sg do devops-jenkins)
+app-flaskapi
+  1 - apps
+      1.0 - app.py
+      1.1 - config.py
+      1.2 - requirements.txt
+      1.3 - scripts.py
+  2 - dockker-compose.yaml
+  3 - Dockerfile
+  5 - Jenkinsfile
+  
+
 ### Cloud usada foi a AWS com os seguintes recursos:
 
 ### Na parte de Rede:
