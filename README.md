@@ -150,6 +150,14 @@ ecr_repository_url_flask_restapi_repo_apps_codegroup = "891612581071.dkr.ecr.us-
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 
+## IAM jenkins:
+
+vault kv put secret/jenkins \
+  access_key=$(terraform output -raw jenkins_access_key) \
+  secret_key=$(terraform output -raw jenkins_secret_key)
+
+  
+
 ## Comandos Ansible:
 Server-Jenkins:
 ansible-playbook -i inventory.ini Playbooks-Devops/playbook.yml  -> instala o docker-ce, docker-compose, nginx

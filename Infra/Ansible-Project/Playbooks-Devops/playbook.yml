@@ -1,5 +1,5 @@
 ---
-- name: Install Docker, Docker-Compose, and NGINX
+- name: Install Docker, Docker-Compose
   hosts: all
   become: true
 

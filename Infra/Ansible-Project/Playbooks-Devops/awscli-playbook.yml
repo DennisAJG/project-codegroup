@@ -1,0 +1,39 @@
+---
+- name: Instalar AWS CLI
+  hosts: jenkins
+  become: yes
+
+  tasks:
+    - name: Atualizar cache do gerenciador de pacotes
+      apt:
+        update_cache: yes
+
+    - name: Instalar dependências necessárias
+      apt:
+        name: 
+          - curl
+          - unzip
+        state: present
+
+    - name: Baixar o instalador do AWS CLI
+      get_url:
+        url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+        dest: "/tmp/awscliv2.zip"
+
+    - name: Descompactar o instalador
+      unarchive:
+        src: "/tmp/awscliv2.zip"
+        dest: "/tmp"
+        remote_src: yes
+
+    - name: Instalar o AWS CLI
+      command: "/tmp/aws/install"
+
+    - name: Verificar versão do AWS CLI
+      command: "aws --version"
+      register: aws_cli_version
+      ignore_errors: yes
+
+    - name: Exibir versão instalada do AWS CLI
+      debug:
+        msg: "{{ aws_cli_version.stdout }}"
