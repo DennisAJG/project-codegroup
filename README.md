@@ -140,6 +140,16 @@ db_instance_endpoint = "databaseprojectappscodegroup.cly6g06qycbq.us-east-1.rds.
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 
+## ECR apps:
+Caminho aonde está o arquivo para provisionar:
+project-codegroup/Infra/Terraform-Project/app/ECR
+
+terraform output:
+ecr_repository_url_flask_restapi_repo_apps_codegroup = "891612581071.dkr.ecr.us-east-1.amazonaws.com/flask-restapi-apps-codegroup"
+
+-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
+
 ## Comandos Ansible:
 Server-Jenkins:
 ansible-playbook -i inventory.ini Playbooks-Devops/playbook.yml  -> instala o docker-ce, docker-compose, nginx
