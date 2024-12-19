@@ -1,228 +1,185 @@
-Projeto Codegroup
+# project-codegroup
+Projeto de uma infraestrutura em Terraform
+
+## Instrução para o provisionamento de toda a infraestrutura via terraform, ansible e hashicorp-vault. 
+
+Comando aws-cli para criação de user-iam e em seguida, criar um acesso via CLI 
+
+ aws iam create-user --user-name user-codegroup
+ aws iam attach-user-policy --user-name user-codegroup --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+ aws iam attach-user-policy --user-name user-codegroup --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
+ aws iam create-access-key --user-name user-codegroup >> credentials.json
+
+ Comandos usados para armazenar o acess-key e secret-key no hashicorp-vault
+
+ link de acesso local:
+ https://127.0.0.1:8200/
+
+ Comandos usados:
+ $ vault login -tls-skip-verify token-root
+ $ export VAULT_ADDR="https://127.0.0.1:8200"
+ $ export VAULT_SKIP_VERIFY=true  (USADO para não validar certificado TLS (usado para ambiente de desenvolvimento e testes))
+ $ source ~/.zshrc
+ $ vault secrets enable -version=2 kv
+ $ vault kv put kv/aws-credentials access_key=access_id secret_key=secrect_id
+ $ vault kv get kv/aws-credentials
+ $ vault kv put kv/ssh-keys ansible_key="ssh-rsa ..."
+ $ vault kv put kv/ssh-keys jenkins_key="ssh-rsa ..." 
+ $ export TF_VAR_access_maquina_local="$(curl -4 ifconfig.me)/32"
+ $ vault kv put kv/credentials-database db_username="root" db_password="CodeGroup2024"
+
+## Processos do levantamento da infraestrutura:
+
+--------------------------------------------------------------------------------
+### S3 para o tfstate
+o primeiro provisionamento via terraform foi o s3 para armazenar os tfstates. 
+
+caminho onde está armazenado:
+
+project-codegroup/Infra/Terraform-Project/devops/S3
+$ terraform output              
+bucket_name_app_codegroup_tfstate = "codegroup-devops-tfstate-s3-project"
+
+project-codegroup/Infra/Terraform-Project/app/S3
+$ terraform output              
+bucket_name_app_codegroup_tfstate = "codegroup-apps-tfstate-s3-project"
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+
+### VPC para o project-devops 
+
+Caminho onde está project devops-network:
+project-codegroup/Infra/Terraform-Project/devops/NETWORK
+terraform output              
+cidr_blocks_private_subnet_1_project_codegroup_devops = "10.0.2.0/24"
+cidr_blocks_private_subnet_2_project_codegroup_devops = "10.0.4.0/24"
+cidr_blocks_public_subnet_1_project_codegroup_devops = "10.0.1.0/24"
+cidr_blocks_public_subnet_2_project_codegroup_devops = "10.0.3.0/24"
+id_igw_project_codegroup_devops = "igw-0513f36fed9958cc4"
+id_route_table_public_project_codegroup_devops = "rtb-09b60374a7efab491"
+id_subnet_private_1_project_codegroup_devops = "subnet-097aa7bde465a9cb7"
+id_subnet_private_2_project_codegroup_devops = "subnet-036562ba153dde991"
+id_subnet_public_1_project_codegroup_devops = "subnet-03b038a9c7d627ba8"
+id_subnet_public_2_project_codegroup_devops = "subnet-0c6a7e07817542701"
+vpc_cidr_project_codegroup_devops = "10.0.0.0/16"
+vpc_id_project_codegroup_devops = "vpc-0b6e535a4b11a0065"
+vpc_peering_id = "pcx-0c7c121d981457388"
+
+Caminho onde está project apps-network:
+project-codegroup/Infra/Terraform-Project/app/NETWORK
+terraform output              
+cidr_blocks_private_subnet_1_project_codegroup_apps = "10.1.2.0/24"
+cidr_blocks_private_subnet_2_project_codegroup_apps = "10.1.4.0/24"
+cidr_blocks_public_subnet_1_project_codegroup_apps = "10.1.1.0/24"
+cidr_blocks_public_subnet_2_project_codegroup_apps = "10.1.3.0/24"
+id_igw_project_codegroup_apps = "igw-0877268d796133999"
+id_route_table_public_project_codegroup_apps = "rtb-0b2e90ef42ad795a7"
+id_subnet_private_1_project_codegroup_apps = "subnet-09b077175c45524f9"
+id_subnet_private_2_project_codegroup_apps = "subnet-071016d99047ae907"
+id_subnet_public_1_project_codegroup_apps = "subnet-027ea83a0c1ea6805"
+id_subnet_public_2_project_codegroup_apps = "subnet-0758abbb14bdb5726"
+vpc_cidr_project_codegroup_apps = "10.1.0.0/16"
+vpc_id_project_codegroup_apps = "vpc-08cb7944e26aa0c37"
 
-Este projeto consiste no desenvolvimento de uma infraestrutura AWS simulando um ambiente produtivo com algumas ferramentas de CI e uma API simples.
+--------------------------------------------------------------------------------
 
-Tecnologias Utilizadas
+--------------------------------------------------------------------------------
+### SG para o server do Jenkins-devops:
+Caminho onde está project devops-sg-jenkins:
+project-codegroup/Infra/Terraform-Project/devops/SG/sg-jenkins
+terraform output:
+sg_jenkins_security_project_codegroup = "sg-06de367b45e15d2b7"
+sg_name_jenkins_project_codegroup = "codegroup_devops"
 
-Cloud: AWS
+## SG para o server apps:
+Caminho onde está sg project apps:
+project-codegroup/Infra/Terraform-Project/app/SG/sg-app
 
-Rede:
+terraform output              
+sg_apps_security_project_codegroup = "sg-0f48635d5cb885ef8"
+sg_name_apps_project_codegroup = "codegroup_apps_sg"
 
-Duas VPCs:
+---------------------------------------------------------------------------------
 
-devops
+---------------------------------------------------------------------------------
+### EC2 Jenkins 
+Caminho onde está project devops-ec2-jenkins:
+project-codegroup/Infra/Terraform-Project/devops/EC2/jenkins
 
-apps
+terraform output:
+instance_type = "t2.micro"
+ip_sever = "44.198.76.159"
+key_name_ssh = "project-aws"
+security_group_id = "sg-06de367b45e15d2b7"
 
-Subnets:
+### EC2 apps
+Caminha onde está o projeto apps-ec2:
+project-codegroup/Infra/Terraform-Project/app/EC2/apps
 
-Quatro subnets para cada VPC (2 públicas e 2 privadas).
+terraform output:
+instance_type = "t2.micro"
+ip_sever = "54.90.113.115"
+key_name_ssh = "project-aws"
+security_group_id = "sg-0f48635d5cb885ef8"
 
-Tabela de Roteamento:
+-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+## RDS Apps:
 
-Configurada para o Internet Gateway.
+Comando vault para armazenar a senha do root:
+vault kv put kv/credentials-database db_username="root" db_password="CodeGroup2024"
 
-Internet Gateway.
+terraform apply -target=aws_security_group.sg_apps_database_security_project_codegroup --auto-approve
 
-Associações de Rota:
+terraform output:
+db_instance_arn = "arn:aws:rds:us-east-1:891612581071:db:databaseprojectappscodegroup"
+db_instance_endpoint = "databaseprojectappscodegroup.cly6g06qycbq.us-east-1.rds.amazonaws.com:3306"
 
-Para subnets públicas.
+-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
 
-Peering Connection:
+## ECR apps:
+Caminho aonde está o arquivo para provisionar:
+project-codegroup/Infra/Terraform-Project/app/ECR
 
-Comunicação entre as duas VPCs.
+terraform output:
+ecr_repository_url_flask_restapi_repo_apps_codegroup = "891612581071.dkr.ecr.us-east-1.amazonaws.com/flask-restapi-apps-codegroup"
 
-Billing:
+-----------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
 
-Report Definition:
+## IAM jenkins:
 
-Para gerar relatórios de uso e custo.
+vault kv put secret/jenkins \
+  access_key=$(terraform output -raw jenkins_access_key) \
+  secret_key=$(terraform output -raw jenkins_secret_key)
 
-Billing Service:
+  
 
-Para validação de informações de cobrança.
+## Comandos Ansible:
+Server-Jenkins:
+ansible-playbook -i inventory.ini Playbooks-Devops/playbook.yml  -> instala o docker-ce, docker-compose, nginx
 
-Database Catalog:
 
-Armazenamento dos dados relatados no S3.
+Server-Apps:
+ansible-playbook -i inventory.ini Playbooks-Apps/etchost-playbook.yml
+ansible-playbook -i inventory.ini Playbooks-Apps/nginx-playbook.yml
+ansible-playbook -i inventory.ini Playbooks-Apps/playbook.yml
 
-Database Catalog Table:
 
-Geração de tabela para configuração dos dados GZIP.
 
-EC2:
+----------------------------------------------------------------------------------------
 
-Duas Instâncias EC2:
+## Arquitetura do projeto (configuração da infraestrutura)
 
-Uma para o Jenkins.
 
-Outra para a aplicação FlaskAPI.
 
-ECR:
 
-ECR:
 
-Armazena a imagem criada via pipeline do Jenkinsfile.
+----------------------------------------------------------------------------------------
 
-IAM:
 
-IAM Group:
 
-Para associar o usuário Jenkins a um grupo.
-
-IAM Group Policies:
-
-Políticas para EC2, S3 e ECR.
-
-Policies:
-
-Uma para cada recurso: ECR, RDS, S3 e EC2_ROLE_S3.
-
-Usuário IAM (Jenkins):
-
-Criado com access_key e secret_key para deploy da aplicação e operações no Docker (pull/push).
-
-IAM Instance Profile:
-
-Permite a comunicação entre EC2 e S3.
-
-RDS:
-
-RDS MySQL:
-
-Versão 8.0.39.
-
-Configurado em uma subnet privada.
-
-S3:
-
-Três Buckets S3:
-
-Dois para armazenar o tfstate (devops e apps).
-
-Um para armazenar os relatórios de custos.
-
-SG (Security Groups):
-
-Três Security Groups:
-
-Um para o RDS.
-
-Um para o EC2 do Jenkins.
-
-Um para o EC2 da aplicação FlaskAPI.
-
-Provisionamento com Terraform
-
-O projeto utiliza Terraform para provisionar toda a infraestrutura:
-
-Data:
-
-Coleta informações de outros recursos via backend.
-
-Variables:
-
-Armazena variáveis como credenciais e configurações importantes.
-
-Outputs:
-
-Usados para coletar informações de cada provisionamento e referenciados no data.
-
-Módulos Locais:
-
-Permitem reutilização de código para provisionar recursos com diferentes parâmetros.
-
-Locals:
-
-Define tags padrão para o projeto.
-
-Backend:
-
-Configurado para armazenar os arquivos de estado (tfstate).
-
-Output Sensitive:
-
-Configurado para ocultar dados sensíveis.
-
-Segurança
-
-Devido à complexidade do projeto, foi implementado o HashiCorp Vault para armazenar e executar provisionamentos que requerem dados sensíveis. Um passo a passo detalhado de como instalar e configurar o Vault está disponível no repositório.
-
-Automatização com Ansible
-
-O projeto utiliza Ansible para automatizar processos:
-
-Instalação do Docker-CE e Docker-Compose.
-
-Configuração do Nginx:
-
-Proxy reverso da porta 8080 para 80.
-
-Configuração do /etc/hosts.
-
-Instalação do mysql-client.
-
-Instalação do aws-cli.
-
-Instalação do Jenkins (senha armazenada no Vault).
-
-Desenvolvimento da API
-
-A API foi desenvolvida com as seguintes tecnologias:
-
-Dockerfile
-
-Docker-Compose
-
-Python
-
-Jenkinsfile
-
-Integração Contínua (CI) com Jenkins
-
-Configurações realizadas:
-
-Armazenamento da Senha:
-
-A senha do usuário Jenkins foi armazenada no Vault.
-
-Plugins Instalados:
-
-AWS-Credentials
-
-ssh-agent
-
-Pipeline:
-
-Realiza o deploy completo da aplicação na EC2.
-
-Credentials:
-
-Configuradas para integração com AWS e SSH.
-
-Repositórios
-
-Infraestrutura:
-
-Contém toda a configuração da infraestrutura e uma pasta com a aplicação FlaskAPI.
-
-Infraestrutura Codegroup
-
-Aplicação:
-
-Repositório dedicado ao código da aplicação e deploy.
-
-Aplicação FlaskAPI
-
-Arquitetura do Projeto
-
-O diagrama da arquitetura AWS-Infrastructure está disponível no repositório:
-
-Diagrama no Repositório
-
-Documentação de Provisionamento
-
-Todo o passo a passo para provisionar cada recurso está disponível no arquivo Commands.md, localizado no corpo do projeto:
-
-Commands.md
 
