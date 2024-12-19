@@ -59,6 +59,13 @@ resource "aws_security_group" "sg_apps_security_project_codegroup" {
     cidr_blocks = [var.access_maquina_local]
   }
 
+  ingress {
+    description = "apps-flask"
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = [var.access_maquina_local]
+  }
 
   tags = merge(
     local.common_tags,
