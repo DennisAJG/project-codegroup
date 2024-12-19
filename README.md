@@ -6,7 +6,7 @@ Este projeto consiste no desenvolvimento de uma infraestrutura AWS simulando um 
 
 Tecnologias usadas para o desenvolvimento do projeto.
 
-Cloud usada foi a AWS com os seguintes recursos:
+### Cloud usada foi a AWS com os seguintes recursos:
 
 ### Na parte de Rede:
 
